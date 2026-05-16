@@ -20,6 +20,11 @@ function isEmailConfigured() {
          EMAILJS_CONFIG.templateId !== '';
 }
 
+// Initialize EmailJS if loaded
+if (typeof emailjs !== 'undefined' && isEmailConfigured()) {
+  emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+}
+
 // ============ EMAIL VIA EMAILJS ============
 /**
  * Send email notification via EmailJS
@@ -49,8 +54,14 @@ async function sendEmail(toName, toEmail, subject, message) {
       from_name: 'Panchakarma Clinic',
     };
 
-    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, params, EMAILJS_CONFIG.publicKey);
-    console.log(`[Notify] Email sent to ${toEmail}`);
+    // Use EmailJS v4 options syntax for publicKey
+    await emailjs.send(
+      EMAILJS_CONFIG.serviceId, 
+      EMAILJS_CONFIG.templateId, 
+      params, 
+      { publicKey: EMAILJS_CONFIG.publicKey }
+    );
+    console.log(`[Notify] Email sent successfully to ${toEmail}`);
     return true;
   } catch (err) {
     console.error('[Notify] Email failed:', err);
