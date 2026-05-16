@@ -10,7 +10,7 @@
 const EMAILJS_CONFIG = {
   publicKey: 'g4UuL05_W9O4ii8Mr',      // Your EmailJS Public Key
   serviceId: 'service_sd885q1',      // Your EmailJS Service ID (e.g., 'service_gmail')
-  templateId: 'template_30wp8i',     // Your EmailJS Template ID (e.g., 'template_notify')
+  templateId: 'template_30qwp8i',    // Your EmailJS Template ID (e.g., 'template_notify')
 };
 
 // Check if EmailJS is configured
