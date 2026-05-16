@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard — Panchakarma</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+      <header class="top-navbar" id="topNavbar"></header>
+
+      <div class="dashboard-content" id="dashboardContent">
+
+        <!-- ====== OVERVIEW SECTION ====== -->
+        <div data-section="overview">
+          <!-- Stats Cards -->
+          <div class="stats-grid animate-fade-in-up">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon green"><i data-lucide="leaf" style="width:22px;height:22px;color:var(--color-herbal);"></i></div>
+              </div>
+              <div class="stat-card-value" id="statCompleted">0</div>
+              <div class="stat-card-label">Sessions Completed</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon amber"><i data-lucide="calendar-clock" style="width:22px;height:22px;color:var(--color-warning);"></i></div>
+              </div>
+              <div class="stat-card-value" id="statUpcoming">0</div>
+              <div class="stat-card-label">Upcoming Sessions</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon blue"><i data-lucide="activity" style="width:22px;height:22px;color:var(--color-info);"></i></div>
+              </div>
+              <div class="stat-card-value" id="statProgress">0%</div>
+              <div class="stat-card-label">Recovery Progress</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon purple"><i data-lucide="trophy" style="width:22px;height:22px;color:#7C5CBF;"></i></div>
+              </div>
+              <div class="stat-card-value" id="statMilestones">0</div>
+              <div class="stat-card-label">Milestones Reached</div>
+            </div>
+          </div>
+
+          <!-- Sessions + Calendar -->
+          <div class="content-grid animate-fade-in-up delay-1">
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Upcoming Therapy Sessions</h2>
+                <button class="panel-action" onclick="handleNavClick('sessions')">View All</button>
+              </div>
+              <div class="panel-body" id="upcomingSessionsList">
+                <!-- Empty state — will be populated from Firebase -->
+                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--space-10);text-align:center;">
+                  <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                    <i data-lucide="calendar-days" style="width:22px;height:22px;"></i>
+                  </div>
+                  <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Sessions Yet</h3>
+                  <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:260px;">Your upcoming therapy sessions will appear here once scheduled by your practitioner.</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:var(--space-6);">
+              <div class="panel">
+                <div class="panel-header">
+                  <h2 class="panel-title">Therapy Calendar</h2>
+                </div>
+                <div class="panel-body">
+                  <div id="patientCalendar" class="mini-calendar"></div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-header">
+                  <h2 class="panel-title">Recovery Progress</h2>
+                </div>
+                <div class="panel-body" id="progressPanel">
+                  <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-6);text-align:center;">
+                    <p style="font-size:var(--text-sm);color:var(--color-text-muted);">Progress data will appear here as you complete therapy sessions.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== FIND PRACTITIONER / BOOK SECTION ====== -->
+        <div data-section="book" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">Find Practitioner & Book</h2>
+            </div>
+            <div class="panel-body">
+              <div class="form-group" style="margin-bottom:var(--space-6);">
+                <label class="form-label" for="practitionerSelect">Select Practitioner</label>
+                <select id="practitionerSelect" class="form-input">
+                  <option value="">Loading practitioners...</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-6);">
+                <label class="form-label" for="therapySelect">Select Therapy</label>
+                <select id="therapySelect" class="form-input">
+                  <option value="Abhyanga">Abhyanga</option>
+                  <option value="Shirodhara">Shirodhara</option>
+                  <option value="Basti">Basti</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" id="bookTherapyBtn" style="width:100%;">Request Booking</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== SESSIONS SECTION ====== -->
+        <div data-section="sessions" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">All My Sessions</h2>
+            </div>
+            <div class="panel-body" id="allSessionsList">
+              <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="calendar-days" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Sessions Found</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Your therapy sessions will be listed here once they are scheduled.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ====== NOTIFICATIONS SECTION ====== -->
+        <div data-section="notifications" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">All Notifications</h2>
+              <button class="panel-action" onclick="markAllRead()">Mark All Read</button>
+            </div>
+            <div class="panel-body" id="allNotifications">
+              <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="bell-off" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Notifications</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">You're all caught up! Notifications about your therapy sessions will appear here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/notify.js"></script>
+  <script type="module">
+    import { db, requireAuth, searchUsersByRole, doc, collection, query, where, addDoc, onSnapshot, deleteDoc, getDoc } from "./js/firebase-config.js";
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = requireAuth();
+      if (!user) return;
+
+      // Render shared components
+      renderSidebar('patient', 'overview');
+      renderTopNavbar('Welcome Back', user.displayName);
+      renderMiniCalendar('patientCalendar');
+
+
+
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // Real-time Notifications Listener (Removed orderBy to avoid composite index error)
+      const notifQ = query(collection(db, "notifications"), where("recipientId", "==", user.uid));
+      onSnapshot(notifQ, (snapshot) => {
+        const notifDropdownList = document.getElementById('notificationList');
+        
+        if (snapshot.empty) {
+          if (notifDropdownList) notifDropdownList.innerHTML = '<div style="padding:var(--space-8);text-align:center;">No notifications</div>';
+          return;
+        }
+
+        let notifs = [];
+        snapshot.forEach(docSnap => notifs.push(docSnap.data()));
+        
+        // Sort locally by date descending
+        notifs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        let html = '';
+        notifs.forEach(data => {
+          const timeStr = new Date(data.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          html += `
+            <div class="notification-item unread" style="padding:var(--space-3);border-bottom:1px solid var(--color-border);display:flex;gap:var(--space-3);">
+              <div class="notification-icon" style="color:var(--color-herbal);"><i data-lucide="bell" style="width:16px;height:16px;"></i></div>
+              <div class="notification-text">
+                <p style="margin:0;font-size:var(--text-sm);">${data.message}</p>
+                <span class="notification-time" style="font-size:11px;color:var(--color-text-muted);">${timeStr}</span>
+              </div>
+            </div>`;
+        });
+        
+        if (notifDropdownList) notifDropdownList.innerHTML = html;
+        
+        const dot = document.getElementById('notifDot');
+        if (dot) dot.style.display = 'block';
+        lucide.createIcons();
+      });
+
+      // Real-time Appointments Listener
+      const aptQ = query(collection(db, "appointments"), where("patientId", "==", user.uid));
+      onSnapshot(aptQ, (snapshot) => {
+        let appointments = [];
+        snapshot.forEach(docSnap => {
+          appointments.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        
+        // Sort by start date
+        appointments.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
+        const upcomingEl = document.getElementById('upcomingSessionsList');
+        const allSessionsEl = document.getElementById('allSessionsList');
+        
+        if (appointments.length === 0) {
+          const emptyHtml = `
+            <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-10);text-align:center;">
+              <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                <i data-lucide="calendar-days" style="width:22px;height:22px;"></i>
+              </div>
+              <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Sessions</h3>
+              <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:260px;">You have no scheduled therapy sessions.</p>
+            </div>`;
+          if (upcomingEl) upcomingEl.innerHTML = emptyHtml;
+          if (allSessionsEl) allSessionsEl.innerHTML = emptyHtml;
+        } else {
+          const html = renderPatientSessionsList(appointments);
+          if (upcomingEl) upcomingEl.innerHTML = html;
+          if (allSessionsEl) allSessionsEl.innerHTML = html;
+        }
+
+        // Stats update
+        const completedCount = appointments.filter(a => a.status === 'completed').length;
+        const upcomingCount = appointments.filter(a => a.status !== 'completed').length;
+        const totalCount = appointments.length;
+        const progressPct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+        document.getElementById('statCompleted').textContent = completedCount;
+        document.getElementById('statUpcoming').textContent = upcomingCount;
+        document.getElementById('statProgress').textContent = progressPct + '%';
+        document.getElementById('statMilestones').textContent = Math.floor(completedCount / 3);
+
+        // Update recovery progress panel
+        const progressPanel = document.getElementById('progressPanel');
+        if (progressPanel && totalCount > 0) {
+          progressPanel.innerHTML = `
+            <div style="padding:var(--space-4);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-2);">
+                <span style="font-size:var(--text-sm);font-weight:600;">Overall Recovery</span>
+                <span style="font-size:var(--text-sm);color:var(--color-herbal);font-weight:600;">${progressPct}%</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:${progressPct}%;"></div></div>
+              <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-3);">${completedCount} of ${totalCount} sessions completed</p>
+            </div>`;
+        }
+
+        // Make delete globally available — with notifications to practitioner
+        window.deletePatientAppointment = async function(id) {
+          if(confirm("Cancel this therapy session?")) {
+            try {
+              const apt = appointments.find(a => a.id === id);
+              await deleteDoc(doc(db, "appointments", id));
+
+              if (apt) {
+                // In-app notification to practitioner
+                await addDoc(collection(db, "notifications"), {
+                  recipientId: apt.practitionerId,
+                  senderId: user.uid,
+                  senderName: user.displayName,
+                  type: 'session_cancelled',
+                  message: `${user.displayName} has cancelled their ${apt.therapy} session scheduled for ${apt.startDate} at ${apt.time}.`,
+                  createdAt: new Date().toISOString(),
+                  read: false
+                });
+
+                // Email + WhatsApp via centralized notify
+                try {
+                  const practDoc = await getDoc(doc(db, "users", apt.practitionerId));
+                  const practData = practDoc.exists() ? practDoc.data() : {};
+                  PKNotify.notifySessionCancelled({
+                    cancelledBy: 'patient',
+                    recipientName: apt.practitionerName,
+                    recipientEmail: practData.email || '',
+                    recipientPhone: practData.whatsappNumber || '',
+                    therapy: apt.therapy,
+                    startDate: apt.startDate,
+                    time: apt.time,
+                    cancellerName: user.displayName
+                  });
+                } catch(e) { console.warn('Notification failed:', e); }
+              }
+            } catch(e) {
+              alert("Failed to cancel!\nError: " + e.message);
+            }
+          }
+        };
+
+        lucide.createIcons();
+      });
+
+      // Fetch practitioners
+      try {
+        const practitioners = await searchUsersByRole('practitioner');
+        const pSelect = document.getElementById('practitionerSelect');
+        if (practitioners.length === 0) {
+          pSelect.innerHTML = '<option value="">No practitioners available</option>';
+        } else {
+          pSelect.innerHTML = '<option value="">Choose a practitioner</option>';
+          practitioners.forEach(p => {
+            pSelect.innerHTML += `<option value="${p.uid}" data-phone="${p.whatsappNumber || ''}" data-email="${p.email || ''}">${p.displayName}</option>`;
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        const pSelect = document.getElementById('practitionerSelect');
+        if (pSelect) pSelect.innerHTML = '<option value="">Error loading</option>';
+      }
+
+      // Handle booking
+      const bookBtn = document.getElementById('bookTherapyBtn');
+      if (bookBtn) {
+        bookBtn.addEventListener('click', async () => {
+          const practitionerId = document.getElementById('practitionerSelect').value;
+          const therapy = document.getElementById('therapySelect').value;
+          if (!practitionerId) {
+            alert('Please select a practitioner');
+            return;
+          }
+          
+          bookBtn.disabled = true;
+          bookBtn.textContent = 'Sending Request...';
+          
+          try {
+            const selectedOpt = document.getElementById('practitionerSelect').options[document.getElementById('practitionerSelect').selectedIndex];
+            const practitionerName = selectedOpt.text;
+            const practPhone = selectedOpt.getAttribute('data-phone');
+            const practEmail = selectedOpt.getAttribute('data-email') || '';
+
+            // In-app notification to practitioner
+            await addDoc(collection(db, "notifications"), {
+              recipientId: practitionerId,
+              senderId: user.uid,
+              senderName: user.displayName,
+              type: 'booking_request',
+              therapy: therapy,
+              message: `${user.displayName} has requested a ${therapy} session. Please check your schedule to assign a date.`,
+              createdAt: new Date().toISOString(),
+              read: false
+            });
+
+            // Email + WhatsApp via centralized notify
+            PKNotify.notifyBookingRequest({
+              patientName: user.displayName,
+              patientEmail: user.email,
+              patientPhone: user.whatsappNumber || '',
+              practitionerName: practitionerName,
+              practitionerEmail: practEmail,
+              practitionerPhone: practPhone || '',
+              therapy: therapy
+            });
+
+            bookBtn.textContent = 'Request Sent!';
+            bookBtn.style.background = 'var(--color-success)';
+
+          } catch (err) {
+            console.error(err);
+            alert("Failed to send booking request.");
+          } finally {
+            setTimeout(() => {
+              bookBtn.textContent = 'Request Booking';
+              bookBtn.style.background = '';
+              bookBtn.disabled = false;
+            }, 3000);
+          }
+        });
+      }
+
+    });
+
+    window.renderPatientSessionsList = function(appointments) {
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      let html = '<div class="session-list">';
+      appointments.forEach(apt => {
+        const dateObj = new Date(apt.startDate);
+        const day = dateObj.getDate();
+        const month = monthNames[dateObj.getMonth()];
+        const today = new Date().toISOString().split('T')[0];
+        
+        let statusClass = 'badge-info';
+        let statusText = 'Upcoming';
+        
+        if (apt.status === 'completed') {
+          statusClass = 'badge-success';
+          statusText = 'Completed';
+        } else if (apt.startDate === today) {
+          statusClass = 'badge-warning';
+          statusText = 'Today';
+        } else if (apt.startDate < today) {
+          statusClass = 'badge-success';
+          statusText = 'Past';
+        }
+
+        html += `
+          <div class="session-card">
+            <div class="session-card-left">
+              <div class="session-date" style="text-align:center;background:var(--color-sage-light);padding:var(--space-2) var(--space-4);border-radius:var(--radius-sm);color:var(--color-herbal);">
+                <span class="session-date-day" style="font-size:1.25rem;font-weight:bold;display:block;">${day}</span>
+                <span class="session-date-month" style="font-size:0.75rem;text-transform:uppercase;">${month}</span>
+              </div>
+              <div class="session-info">
+                <div class="session-name" style="font-weight:600;font-size:var(--text-md);">${apt.therapy} — ${apt.practitionerName}</div>
+                <div class="session-meta" style="font-size:var(--text-sm);color:var(--color-text-muted);">${apt.time} · ${apt.durationDays} Days</div>
+              </div>
+            </div>
+            <div class="session-card-right">
+              <span class="badge ${statusClass}">${statusText}</span>
+              <button onclick="deletePatientAppointment('${apt.id}')" title="Cancel Therapy" style="background:none;border:none;color:var(--color-danger);cursor:pointer;"><i data-lucide="x-circle" style="width:20px;height:20px;"></i></button>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      return html;
+    }
+
+    window.onPageChange = function(pageId) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Panchakarma Management Software — Modernizing Panchakarma care through intelligent therapy management, automated scheduling, and patient wellness tracking.">
+  <title>Panchakarma Management Software — Modern Ayurveda Therapy Platform</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <!-- ========== NAVBAR ========== -->
+  <nav class="landing-nav" id="mainNav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon"><i data-lucide="leaf" style="width:20px;height:20px;"></i></div>
+        <div class="nav-logo-text">Pancha<span>karma</span></div>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#features">Features</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#process">Process</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost">Log In</a>
+        <a href="signup.html" class="btn btn-primary">Get Started</a>
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileClose" aria-label="Close menu">
+      <i data-lucide="x" style="width:24px;height:24px;"></i>
+    </button>
+    <a href="#features" onclick="closeMobileNav()">Features</a>
+    <a href="#benefits" onclick="closeMobileNav()">Benefits</a>
+    <a href="#process" onclick="closeMobileNav()">Process</a>
+    <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+    <a href="login.html" class="btn btn-ghost">Log In</a>
+    <a href="signup.html" class="btn btn-primary btn-lg">Get Started</a>
+  </div>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content animate-fade-in-up">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Intelligent Ayurveda Platform
+        </div>
+        <h1 class="hero-title">
+          Modernizing <span class="highlight">Panchakarma</span> Care Through Intelligent Therapy Management
+        </h1>
+        <p class="hero-description">
+          A comprehensive platform for Ayurveda practitioners to manage therapies, automate scheduling, track patient progress, and deliver personalized care — all in one place.
+        </p>
+        <div class="hero-actions">
+          <a href="signup.html" class="btn btn-primary btn-lg">Book Therapy</a>
+          <a href="#features" class="btn btn-secondary btn-lg">Explore Treatments</a>
+        </div>
+      </div>
+      <div class="hero-visual animate-fade-in-up delay-2">
+        <div class="hero-image-wrapper">
+          <img src="assets/images/hero-ayurveda.png" alt="Ayurveda therapy room with herbal treatments">
+        </div>
+        <div class="hero-float-card card-1">
+          <div class="float-card-icon green"><i data-lucide="check" style="width:18px;height:18px;"></i></div>
+          <div class="float-card-title">Session Complete</div>
+          <div class="float-card-desc">Abhyanga therapy — 60 min</div>
+        </div>
+        <div class="hero-float-card card-2">
+          <div class="float-card-icon amber"><i data-lucide="calendar" style="width:18px;height:18px;"></i></div>
+          <div class="float-card-title">Next: Shirodhara</div>
+          <div class="float-card-desc">Scheduled Session</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURES ========== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header animate-fade-in-up">
+        <div class="section-label"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> Core Features</div>
+        <h2 class="section-title">Everything You Need for Panchakarma Care</h2>
+        <p class="section-description">From automated scheduling to real-time progress tracking, our platform streamlines every aspect of Ayurveda therapy management.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animate-fade-in-up delay-1">
+          <div class="feature-icon"><i data-lucide="calendar-check" style="width:26px;height:26px;color:var(--color-herbal);"></i></div>
+          <h3 class="feature-title">Automated Scheduling</h3>
+          <p class="feature-desc">Generate complete therapy schedules automatically based on treatment duration. 7-day Panchakarma? All sessions created instantly.</p>
+        </div>
+        <div class="feature-card animate-fade-in-up delay-2">
+          <div class="feature-icon"><i data-lucide="bar-chart-3" style="width:26px;height:26px;color:var(--color-warning);"></i></div>
+          <h3 class="feature-title">Progress Tracking</h3>
+          <p class="feature-desc">Real-time wellness graphs, recovery milestones, and session completion tracking for both patients and practitioners.</p>
+        </div>
+        <div class="feature-card animate-fade-in-up delay-3">
+          <div class="feature-icon"><i data-lucide="bell-ring" style="width:26px;height:26px;color:var(--color-info);"></i></div>
+          <h3 class="feature-title">Smart Notifications</h3>
+          <p class="feature-desc">Pre-therapy precautions, post-therapy care reminders, and automated session alerts delivered at the right time.</p>
+        </div>
+        <div class="feature-card animate-fade-in-up delay-4">
+          <div class="feature-icon"><i data-lucide="message-square-text" style="width:26px;height:26px;color:var(--color-herbal);"></i></div>
+          <h3 class="feature-title">Patient Feedback</h3>
+          <p class="feature-desc">Structured feedback on symptoms, side effects, mood, and improvements — visible to practitioners in real time.</p>
+        </div>
+        <div class="feature-card animate-fade-in-up delay-5">
+          <div class="feature-icon"><i data-lucide="users" style="width:26px;height:26px;color:#7C5CBF;"></i></div>
+          <h3 class="feature-title">Multi-Role Access</h3>
+          <p class="feature-desc">Dedicated dashboards for patients, practitioners, and admins with role-based permissions and tailored workflows.</p>
+        </div>
+        <div class="feature-card animate-fade-in-up delay-6">
+          <div class="feature-icon"><i data-lucide="building-2" style="width:26px;height:26px;color:var(--color-error);"></i></div>
+          <h3 class="feature-title">Clinic Analytics</h3>
+          <p class="feature-desc">Comprehensive statistics on therapy outcomes, patient flow, practitioner performance, and clinic operations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== BENEFITS ========== -->
+  <section class="section benefits" id="benefits">
+    <div class="container">
+      <div class="benefits-grid">
+        <div class="animate-fade-in-up">
+          <div class="section-label"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> Benefits</div>
+          <h2 class="section-title" style="text-align:left;">Why Clinics Love Our Platform</h2>
+          <p class="section-description" style="text-align:left;margin-bottom:var(--space-8);">
+            Built by healthcare professionals for Ayurveda practitioners. Every feature is designed to save time, improve care, and delight patients.
+          </p>
+          <div class="benefits-list">
+            <div class="benefit-item">
+              <div class="benefit-check"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+              <div class="benefit-text">
+                <h4>Reduce Administrative Overhead by 70%</h4>
+                <p>Automate session scheduling, reminders, and record keeping so you can focus on patient care.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-check"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+              <div class="benefit-text">
+                <h4>Improve Patient Outcomes</h4>
+                <p>Track recovery progress with data-driven insights and timely precaution reminders.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-check"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+              <div class="benefit-text">
+                <h4>Seamless Communication</h4>
+                <p>Real-time feedback loops between patients and practitioners ensure nothing is missed.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-check"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+              <div class="benefit-text">
+                <h4>Cloud-Based &amp; Secure</h4>
+                <p>Access your clinic data from anywhere with enterprise-grade Firebase security.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="benefits-visual animate-fade-in-up delay-3">
+          <img src="assets/images/hero-ayurveda.png" alt="Ayurveda wellness therapy benefits">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== THERAPY PROCESS ========== -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-header animate-fade-in-up">
+        <div class="section-label"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> Therapy Process</div>
+        <h2 class="section-title">How Panchakarma Works on Our Platform</h2>
+        <p class="section-description">A streamlined digital journey from consultation to recovery.</p>
+      </div>
+      <div class="process-steps">
+        <div class="process-step animate-fade-in-up delay-1">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Consultation</h3>
+          <p class="step-desc">Patient registers and completes a Prakriti assessment. Practitioner reviews health profile.</p>
+        </div>
+        <div class="process-step animate-fade-in-up delay-2">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Treatment Plan</h3>
+          <p class="step-desc">Practitioner creates a personalized therapy plan with selected Panchakarma procedures.</p>
+        </div>
+        <div class="process-step animate-fade-in-up delay-3">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Therapy Sessions</h3>
+          <p class="step-desc">Automated scheduling generates all sessions. Patients receive reminders and precautions.</p>
+        </div>
+        <div class="process-step animate-fade-in-up delay-4">
+          <div class="step-number">4</div>
+          <h3 class="step-title">Recovery Tracking</h3>
+          <p class="step-desc">Track progress with feedback, graphs, and milestones. Practitioners adjust care as needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WHY CHOOSE US ========== -->
+  <section class="section why-us">
+    <div class="container">
+      <div class="section-header animate-fade-in-up">
+        <div class="section-label"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> Why Choose Us</div>
+        <h2 class="section-title">Purpose-Built for Ayurveda</h2>
+        <p class="section-description">Unlike generic healthcare tools, we understand the nuances of Panchakarma therapy.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card animate-fade-in-up delay-1">
+          <div class="why-icon"><i data-lucide="leaf" style="width:22px;height:22px;color:var(--color-herbal);"></i></div>
+          <div>
+            <h3 class="why-title">Ayurveda-First Design</h3>
+            <p class="why-desc">Built specifically for Panchakarma workflows — Vamana, Virechana, Basti, Nasya, and Raktamokshana.</p>
+          </div>
+        </div>
+        <div class="why-card animate-fade-in-up delay-2">
+          <div class="why-icon"><i data-lucide="zap" style="width:22px;height:22px;color:var(--color-warning);"></i></div>
+          <div>
+            <h3 class="why-title">Instant Setup</h3>
+            <p class="why-desc">Get your clinic online in minutes. No complex configurations, no IT team required.</p>
+          </div>
+        </div>
+        <div class="why-card animate-fade-in-up delay-3">
+          <div class="why-icon"><i data-lucide="shield-check" style="width:22px;height:22px;color:var(--color-info);"></i></div>
+          <div>
+            <h3 class="why-title">HIPAA-Ready Security</h3>
+            <p class="why-desc">Patient data is encrypted and stored securely with Firebase's enterprise-grade infrastructure.</p>
+          </div>
+        </div>
+        <div class="why-card animate-fade-in-up delay-4">
+          <div class="why-icon"><i data-lucide="smartphone" style="width:22px;height:22px;color:var(--color-brown);"></i></div>
+          <div>
+            <h3 class="why-title">Works Everywhere</h3>
+            <p class="why-desc">Fully responsive design that works on desktops, tablets, and mobile phones seamlessly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-header animate-fade-in-up">
+        <div class="section-label"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> FAQ</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-description">Everything you need to know about our Panchakarma management platform.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item active">
+          <button class="faq-question" id="faq-btn-1">
+            What is Panchakarma Management Software?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">It's a digital platform designed specifically for Ayurveda clinics to manage Panchakarma therapies, automate scheduling, track patient progress, and streamline communication between practitioners and patients.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" id="faq-btn-2">
+            How does automated scheduling work?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">When a practitioner sets a therapy duration (e.g., 7 days), the system automatically generates all individual sessions with appropriate timing, sends reminders, and provides pre/post therapy precautions for each session.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" id="faq-btn-3">
+            Is patient data secure?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Yes. We use Firebase's enterprise-grade security with encrypted data storage, secure authentication, and role-based access controls to ensure patient information remains private and protected.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" id="faq-btn-4">
+            Can patients track their own progress?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Absolutely. Patients have their own dashboard with therapy calendars, progress graphs, recovery milestones, and the ability to submit feedback on symptoms and improvements after each session.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" id="faq-btn-5">
+            What types of Panchakarma therapies are supported?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">Our platform supports all five Panchakarma procedures — Vamana, Virechana, Basti, Nasya, and Raktamokshana — along with preparatory treatments like Abhyanga and Shirodhara.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="cta-title animate-fade-in-up">Ready to Modernize Your Clinic?</h2>
+      <p class="cta-desc animate-fade-in-up delay-1">Start managing your Panchakarma therapies with our intelligent platform today.</p>
+      <div class="animate-fade-in-up delay-2">
+        <a href="signup.html" class="btn btn-white btn-lg">Get Started Free</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <div class="nav-logo-icon"><i data-lucide="leaf" style="width:18px;height:18px;"></i></div>
+            <div class="nav-logo-text" style="color:white;">Pancha<span>karma</span></div>
+          </div>
+          <p>Modernizing traditional Ayurveda therapy management through intelligent digital solutions for clinics and patients.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Platform</h4>
+          <div class="footer-links">
+            <a href="#features">Features</a>
+            <a href="#benefits">Benefits</a>
+            <a href="#process">How It Works</a>
+            <a href="#faq">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Account</h4>
+          <div class="footer-links">
+            <a href="login.html">Log In</a>
+            <a href="signup.html">Get Started</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Panchakarma Management Software. All rights reserved.</span>
+        <span>Built for Ayurveda</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/landing.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

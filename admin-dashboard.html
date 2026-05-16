@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Panchakarma</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main-content">
+      <header class="top-navbar" id="topNavbar"></header>
+
+      <div class="dashboard-content" id="dashboardContent">
+
+        <!-- ====== OVERVIEW SECTION ====== -->
+        <div data-section="overview">
+          <div class="stats-grid animate-fade-in-up">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon green"><i data-lucide="users" style="width:22px;height:22px;color:var(--color-herbal);"></i></div>
+              </div>
+              <div class="stat-card-value" id="statTotalPatients">0</div>
+              <div class="stat-card-label">Total Patients</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon blue"><i data-lucide="stethoscope" style="width:22px;height:22px;color:var(--color-info);"></i></div>
+              </div>
+              <div class="stat-card-value" id="statPractitioners">0</div>
+              <div class="stat-card-label">Active Practitioners</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon amber"><i data-lucide="leaf" style="width:22px;height:22px;color:var(--color-warning);"></i></div>
+              </div>
+              <div class="stat-card-value" id="statTotalTherapies">0</div>
+              <div class="stat-card-label">Therapies Completed</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon purple"><i data-lucide="star" style="width:22px;height:22px;color:#7C5CBF;"></i></div>
+              </div>
+              <div class="stat-card-value" id="statRating">—</div>
+              <div class="stat-card-label">Avg. Patient Rating</div>
+            </div>
+          </div>
+
+          <!-- Analytics + Therapy Distribution -->
+          <div class="content-grid animate-fade-in-up delay-1">
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Monthly Therapy Sessions</h2>
+              </div>
+              <div class="panel-body">
+                <div id="monthlyChart" class="chart-container"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Therapy Distribution</h2>
+              </div>
+              <div class="panel-body" id="therapyDistribution">
+                <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-8);text-align:center;">
+                  <p style="font-size:var(--text-sm);color:var(--color-text-muted);">Therapy distribution data will appear as sessions are completed.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== ANALYTICS SECTION ====== -->
+        <div data-section="analytics" style="display:none;">
+          <div class="content-grid equal animate-fade-in-up">
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Patient Growth</h2>
+              </div>
+              <div class="panel-body">
+                <div id="patientGrowthChart" class="chart-container"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Patient Satisfaction</h2>
+              </div>
+              <div class="panel-body">
+                <div id="satisfactionChart" class="chart-container"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== PRACTITIONERS SECTION ====== -->
+        <div data-section="practitioners" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">Practitioner Management</h2>
+            </div>
+            <div class="panel-body" id="practitionerList">
+              <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="stethoscope" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Practitioners Registered</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Practitioners will appear here when they register and are approved.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== USERS SECTION ====== -->
+        <div data-section="users" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">User Management</h2>
+            </div>
+            <div class="panel-body" id="userList">
+              <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="users" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Users</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Registered users across all roles will be managed from here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== THERAPY STATS SECTION ====== -->
+        <div data-section="therapies" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">Therapy Statistics</h2>
+            </div>
+            <div class="panel-body" id="therapyStats">
+              <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="bar-chart-3" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Statistics</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Therapy statistics will be generated as sessions are completed.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== NOTIFICATIONS SECTION ====== -->
+        <div data-section="notifications" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">System Notifications</h2>
+              <button class="panel-action" onclick="markAllRead()">Mark All Read</button>
+            </div>
+            <div class="panel-body" id="adminNotifications">
+              <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="bell-off" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Notifications</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">System alerts and user activity notifications will appear here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== SETTINGS SECTION ====== -->
+        <div data-section="settings" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">Clinic Settings</h2>
+            </div>
+            <div class="panel-body">
+              <form id="settingsForm" style="display:flex;flex-direction:column;gap:var(--space-5);max-width:480px;">
+                <div class="form-group">
+                  <label class="form-label" for="clinicName">Clinic Name</label>
+                  <input type="text" id="clinicName" class="form-input" placeholder="Enter your clinic name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="clinicEmail">Clinic Email</label>
+                  <input type="email" id="clinicEmail" class="form-input" placeholder="clinic@example.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="clinicPhone">Contact Number</label>
+                  <input type="tel" id="clinicPhone" class="form-input" placeholder="+91 98765 43210">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="clinicAddress">Address</label>
+                  <textarea id="clinicAddress" class="form-input" rows="3" placeholder="Clinic address..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:fit-content;">Save Settings</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/firebase-config.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = requireAuth();
+      if (!user) return;
+
+      renderSidebar('admin', 'overview');
+      renderTopNavbar('Clinic Administration', user.displayName);
+
+      // Empty charts
+      renderBarChart('monthlyChart', []);
+      renderBarChart('patientGrowthChart', []);
+      renderBarChart('satisfactionChart', []);
+
+      lucide.createIcons();
+
+      // Settings form
+      const settingsForm = document.getElementById('settingsForm');
+      if (settingsForm) {
+        settingsForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const btn = settingsForm.querySelector('button[type="submit"]');
+          btn.textContent = 'Saving...';
+          btn.disabled = true;
+
+          // TODO: Save to Firebase
+          setTimeout(() => {
+            btn.textContent = 'Saved Successfully';
+            btn.style.background = 'var(--color-success)';
+            addNotification('check-circle', 'green', 'Clinic settings have been updated.');
+            setTimeout(() => {
+              btn.textContent = 'Save Settings';
+              btn.style.background = '';
+              btn.disabled = false;
+            }, 2000);
+          }, 800);
+        });
+      }
+    });
+
+    function onPageChange(pageId) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
