@@ -95,11 +95,25 @@
           </div>
         </div>
 
+        <!-- ====== PRACTITIONERS SECTION ====== -->
+        <div data-section="practitioners" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">Our Practitioners</h2>
+            </div>
+            <div class="panel-body">
+              <div id="practitionersList" class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4);">
+                <div style="padding:var(--space-8);text-align:center;grid-column: 1 / -1;color:var(--color-text-muted);">Loading practitioners...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- ====== FIND PRACTITIONER / BOOK SECTION ====== -->
         <div data-section="book" style="display:none;">
           <div class="panel animate-fade-in-up">
             <div class="panel-header">
-              <h2 class="panel-title">Find Practitioner & Book</h2>
+              <h2 class="panel-title">Book Therapy</h2>
             </div>
             <div class="panel-body">
               <div class="form-group" style="margin-bottom:var(--space-6);">
@@ -109,14 +123,26 @@
                 </select>
               </div>
               <div class="form-group" style="margin-bottom:var(--space-6);">
-                <label class="form-label" for="therapySelect">Select Therapy</label>
+                <label class="form-label" for="therapySelect">Select Therapy / Consultation</label>
                 <select id="therapySelect" class="form-input">
-                  <option value="Abhyanga">Abhyanga</option>
+                  <option value="Consultation" selected>Consultation</option>
+                  <option value="Abhyanga">Abhyanga (Oil Massage)</option>
                   <option value="Shirodhara">Shirodhara</option>
+                  <option value="Virechana">Virechana</option>
                   <option value="Basti">Basti</option>
+                  <option value="Nasya">Nasya</option>
+                  <option value="Vamana">Vamana</option>
+                  <option value="Raktamokshana">Raktamokshana</option>
                 </select>
+                <div id="therapyDescriptionBox" style="margin-top:var(--space-3); padding:var(--space-3); background:var(--color-sage-light); border-radius:var(--radius-sm); border-left: 3px solid var(--color-herbal);">
+                  <h4 id="therapyDescTitle" style="font-size:var(--text-sm); font-weight:600; margin-bottom:var(--space-1); color:var(--color-herbal);">Consultation</h4>
+                  <p id="therapyDescText" style="font-size:var(--text-sm); color:var(--color-text-muted); margin:0;">A one-on-one session with a practitioner to discuss your health concerns, assess your dosha, and receive a customized Panchakarma treatment plan.</p>
+                </div>
               </div>
-              <button class="btn btn-primary" id="bookTherapyBtn" style="width:100%;">Request Booking</button>
+              <div style="display:flex; gap:var(--space-3); margin-top:var(--space-4);">
+                <button class="btn btn-primary" id="bookTherapyBtn" style="flex:1;">Request Booking</button>
+                <button class="btn btn-secondary" id="msgPractitionerBtn" style="flex:1;" onclick="startPatientChat()">Message</button>
+              </div>
             </div>
           </div>
         </div>
@@ -158,9 +184,121 @@
             </div>
           </div>
         </div>
+        <!-- ====== MESSAGES SECTION ====== -->
+        <div data-section="messages" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">My Messages</h2>
+            </div>
+            <div class="panel-body">
+              <div id="messagesList" style="display:flex;flex-direction:column;gap:var(--space-3);">
+                <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                  <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                    <i data-lucide="message-square" style="width:22px;height:22px;"></i>
+                  </div>
+                  <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Messages Yet</h3>
+                  <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Message a practitioner to start a conversation.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== ANALYTICS SECTION ====== -->
+        <div data-section="analytics" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">My Treatment Analytics</h2>
+            </div>
+            <div class="panel-body">
+              <div class="content-grid">
+                <div style="background:var(--color-sage-light);padding:var(--space-6);border-radius:var(--radius-lg);">
+                  <h3 style="font-size:var(--text-md);font-weight:600;margin-bottom:var(--space-4);color:var(--color-text);">Dosha Balance Progress</h3>
+                  <div id="doshaChart" style="min-height:200px;"></div>
+                </div>
+                <div style="background:var(--color-sage-light);padding:var(--space-6);border-radius:var(--radius-lg);">
+                  <h3 style="font-size:var(--text-md);font-weight:600;margin-bottom:var(--space-4);color:var(--color-text);">Clinic Insights</h3>
+                  <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+                    <div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:var(--space-2);">
+                      <span style="color:var(--color-text-muted);">Patients Healed</span>
+                      <span style="font-weight:bold;color:var(--color-herbal);">1,240+</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:var(--space-2);">
+                      <span style="color:var(--color-text-muted);">Average Recovery Time</span>
+                      <span style="font-weight:bold;color:var(--color-warning);">14 Days</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:var(--space-2);">
+                      <span style="color:var(--color-text-muted);">Therapies Available</span>
+                      <span style="font-weight:bold;color:var(--color-info);">12</span>
+                    </div>
+                    <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-2);">Based on clinic-wide anonymous data.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== FEEDBACK SECTION ====== -->
+        <div data-section="feedback" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">Provide Feedback</h2>
+            </div>
+            <div class="panel-body">
+              <div style="max-width:600px;">
+                <div class="form-group" style="margin-bottom:var(--space-4);">
+                  <label class="form-label" for="feedbackPractitioner">Select Practitioner</label>
+                  <select id="feedbackPractitioner" class="form-input">
+                    <option value="">Select Practitioner</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom:var(--space-4);">
+                  <label class="form-label">Rating</label>
+                  <select id="feedbackRating" class="form-input">
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Very Good</option>
+                    <option value="3">3 - Good</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="1">1 - Poor</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin-bottom:var(--space-4);">
+                  <label class="form-label" for="feedbackText">Your Feedback</label>
+                  <textarea id="feedbackText" class="form-input" rows="4" placeholder="How was your therapy experience?"></textarea>
+                </div>
+                <button id="submitFeedbackBtn" class="btn btn-primary">Submit Feedback</button>
+              </div>
+
+              <h3 style="font-size:var(--text-lg);font-weight:600;margin-top:var(--space-8);margin-bottom:var(--space-4);border-top:1px solid var(--color-border);padding-top:var(--space-4);">My Past Feedbacks</h3>
+              <div id="pastFeedbackList" style="display:flex;flex-direction:column;gap:var(--space-3);">
+                <!-- Dynamic feedback list -->
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </main>
+  </div>
+
+  <!-- ====== CHAT MODAL ====== -->
+  <div class="modal-overlay" id="chatModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center;">
+    <div style="background:var(--color-white);border-radius:var(--radius-xl);width:90%;max-width:480px;height:80vh;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="padding:var(--space-6);border-bottom:1px solid var(--color-border);display:flex;justify-content:space-between;align-items:center;background:var(--color-sage-light);">
+        <h2 style="font-size:var(--text-lg);font-weight:var(--weight-bold);color:var(--color-herbal);" id="chatTitle">Chat</h2>
+        <button onclick="closeChatModal()" style="cursor:pointer;background:none;border:none;color:var(--color-text-muted);">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+      </div>
+      <div id="chatMessages" style="flex:1;padding:var(--space-6);overflow-y:auto;display:flex;flex-direction:column;gap:var(--space-3);background:#f9fafb;">
+        <!-- Messages go here -->
+      </div>
+      <div style="padding:var(--space-4);border-top:1px solid var(--color-border);display:flex;gap:var(--space-2);background:var(--color-white);">
+        <input type="text" id="chatInput" class="form-input" placeholder="Type a message..." style="flex:1;margin:0;" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+        <button class="btn btn-primary" onclick="sendChatMessage()" style="padding:0 var(--space-4);"><i data-lucide="send" style="width:18px;height:18px;"></i></button>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -179,6 +317,13 @@
       renderTopNavbar('Welcome Back', user.displayName);
       renderMiniCalendar('patientCalendar');
 
+      // Initialize analytics chart with dummy patient data
+      renderBarChart('doshaChart', [
+        { label: 'Vata', value: 30, secondary: true },
+        { label: 'Pitta', value: 45 },
+        { label: 'Kapha', value: 25, secondary: true }
+      ]);
+
 
 
       // Initialize Lucide icons
@@ -195,7 +340,14 @@
         }
 
         let notifs = [];
-        snapshot.forEach(docSnap => notifs.push(docSnap.data()));
+        let chatMessages = [];
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          notifs.push(data);
+          if (data.type === 'chat_message') {
+            chatMessages.push(data);
+          }
+        });
         
         // Sort locally by date descending
         notifs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -213,10 +365,58 @@
             </div>`;
         });
         
-        if (notifDropdownList) notifDropdownList.innerHTML = html;
+        if (notifDropdownList) notifDropdownList.innerHTML = html || '<div style="padding:var(--space-8);text-align:center;">No notifications</div>';
         
-        const dot = document.getElementById('notifDot');
-        if (dot) dot.style.display = 'block';
+        if (notifs.length > 0) {
+          const dot = document.getElementById('notifDot');
+          if (dot) dot.style.display = 'block';
+        }
+        
+        // Render Messages Section
+        const msgsListEl = document.getElementById('messagesList');
+        if (msgsListEl && window.globalPractitioners) {
+          let messagesHtml = '';
+          const uniqueSenders = [...new Set(chatMessages.map(m => m.senderId))];
+          
+          if (uniqueSenders.length === 0) {
+            messagesHtml = `
+              <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="message-square" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Messages Yet</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Message a practitioner to start a conversation.</p>
+              </div>`;
+          } else {
+            uniqueSenders.forEach(senderId => {
+              const pract = window.globalPractitioners.find(p => p.uid === senderId);
+              const senderMsgs = chatMessages.filter(m => m.senderId === senderId);
+              senderMsgs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+              const lastMsg = senderMsgs[0];
+              const pName = pract ? pract.displayName : (lastMsg.senderName || 'Practitioner');
+              const timeStr = new Date(lastMsg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+              
+              messagesHtml += `
+                <div class="message-card" style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-4);background:var(--color-white);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;" onclick="openChatModal('${senderId}', '${pName}')">
+                  <div style="display:flex;gap:var(--space-4);align-items:center;">
+                    <div style="width:40px;height:40px;border-radius:50%;background:var(--color-sage-light);color:var(--color-herbal);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;">
+                      ${pName.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <div style="font-weight:600;color:var(--color-text);">${pName}</div>
+                      <div style="font-size:var(--text-sm);color:var(--color-text-muted);">${lastMsg.text.substring(0, 40)}${lastMsg.text.length > 40 ? '...' : ''}</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-2);">
+                    <div style="font-size:11px;color:var(--color-text-muted);">${timeStr}</div>
+                    <button class="btn btn-sm btn-primary">Reply</button>
+                  </div>
+                </div>`;
+            });
+          }
+          msgsListEl.innerHTML = messagesHtml;
+        }
+
         lucide.createIcons();
       });
 
@@ -321,21 +521,89 @@
       });
 
       // Fetch practitioners
+      window.globalPractitioners = [];
       try {
-        const practitioners = await searchUsersByRole('practitioner');
+        window.globalPractitioners = await searchUsersByRole('practitioner');
+        const practitioners = window.globalPractitioners;
         const pSelect = document.getElementById('practitionerSelect');
+        const pList = document.getElementById('practitionersList');
+        const fSelect = document.getElementById('feedbackPractitioner');
+        
         if (practitioners.length === 0) {
-          pSelect.innerHTML = '<option value="">No practitioners available</option>';
+          if(pSelect) pSelect.innerHTML = '<option value="">No practitioners available</option>';
+          if(fSelect) fSelect.innerHTML = '<option value="">No practitioners available</option>';
+          if(pList) pList.innerHTML = '<div style="padding:var(--space-8);text-align:center;grid-column: 1 / -1;">No practitioners available</div>';
         } else {
-          pSelect.innerHTML = '<option value="">Choose a practitioner</option>';
+          if(pSelect) pSelect.innerHTML = '<option value="">Choose a practitioner</option>';
+          if(fSelect) fSelect.innerHTML = '<option value="">Select Practitioner</option>';
+          let listHtml = '';
+          
           practitioners.forEach(p => {
-            pSelect.innerHTML += `<option value="${p.uid}" data-phone="${p.whatsappNumber || ''}" data-email="${p.email || ''}">${p.displayName}</option>`;
+            if(pSelect) pSelect.innerHTML += `<option value="${p.uid}" data-phone="${p.whatsappNumber || ''}" data-email="${p.email || ''}">${p.displayName}</option>`;
+            if(fSelect) fSelect.innerHTML += `<option value="${p.uid}">${p.displayName}</option>`;
+            
+            listHtml += `
+              <div class="stat-card" style="display:flex;flex-direction:column;gap:var(--space-3);align-items:flex-start;">
+                <div style="display:flex;align-items:center;gap:var(--space-3);width:100%;">
+                  <div style="width:40px;height:40px;border-radius:50%;background:var(--color-sage-light);color:var(--color-herbal);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;">
+                    ${p.displayName.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h3 style="margin:0;font-size:var(--text-md);font-weight:600;">${p.displayName}</h3>
+                    <p style="margin:0;font-size:var(--text-xs);color:var(--color-text-muted);">Ayurvedic Practitioner</p>
+                  </div>
+                </div>
+                <div style="font-size:var(--text-sm);color:var(--color-text-muted);width:100%;">
+                  <div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-1);">
+                    <i data-lucide="mail" style="width:14px;height:14px;"></i> ${p.email || 'N/A'}
+                  </div>
+                  <div style="display:flex;align-items:center;gap:var(--space-2);">
+                    <i data-lucide="phone" style="width:14px;height:14px;"></i> ${p.whatsappNumber || 'N/A'}
+                  </div>
+                </div>
+                <div style="display:flex;gap:var(--space-2);width:100%;margin-top:var(--space-2);">
+                  <button class="btn btn-primary" style="flex:1;padding:var(--space-2);" onclick="startPatientChat('${p.uid}', '${p.displayName}')">Message</button>
+                  <button class="btn btn-secondary" style="flex:1;padding:var(--space-2);" onclick="handleNavClick('book'); document.getElementById('practitionerSelect').value = '${p.uid}';">Book</button>
+                </div>
+              </div>
+            `;
           });
+          if(pList) pList.innerHTML = listHtml;
+          lucide.createIcons();
         }
       } catch (err) {
         console.error(err);
         const pSelect = document.getElementById('practitionerSelect');
+        const pList = document.getElementById('practitionersList');
         if (pSelect) pSelect.innerHTML = '<option value="">Error loading</option>';
+        if (pList) pList.innerHTML = '<div style="padding:var(--space-8);text-align:center;grid-column: 1 / -1;">Error loading practitioners</div>';
+      }
+
+      // Handle therapy descriptions
+      const therapySelect = document.getElementById('therapySelect');
+      const therapyDescTitle = document.getElementById('therapyDescTitle');
+      const therapyDescText = document.getElementById('therapyDescText');
+
+      const therapyDescriptions = {
+        'Consultation': 'A one-on-one session with a practitioner to discuss your health concerns, assess your dosha, and receive a customized Panchakarma treatment plan.',
+        'Abhyanga': 'A full-body massage using warm medicated herbal oils. It nourishes the skin, mobilizes deep-seated toxins, improves circulation, and deeply relaxes the body.',
+        'Shirodhara': 'A continuous, gentle pouring of warm herbal oil or liquids over the forehead (the third eye). Exceptionally effective for reducing stress, anxiety, and improving sleep.',
+        'Virechana': 'A medicated purgation therapy that cleanses the Pitta toxins from the body and purifies the blood, effectively treating skin and gastrointestinal disorders.',
+        'Basti': 'A therapeutic medicated enema that effectively cleanses the colon and balances the Vata dosha, crucial for overall detoxification and treating chronic issues.',
+        'Nasya': 'Administration of medicated oils or powders through the nasal passages to cleanse accumulated Kapha toxins from the head and neck region.',
+        'Vamana': 'A medicated emesis (vomiting) therapy designed to eliminate Kapha toxins from the respiratory tract and upper gastrointestinal tract.',
+        'Raktamokshana': 'A blood-letting therapy to cleanse the blood and cure disorders caused by Pitta dosha toxicity.'
+      };
+
+      if (therapySelect) {
+        therapySelect.addEventListener('change', (e) => {
+          const selectedValue = e.target.value;
+          const selectedText = e.target.options[e.target.selectedIndex].text;
+          if (therapyDescTitle && therapyDescText) {
+            therapyDescTitle.textContent = selectedText;
+            therapyDescText.textContent = therapyDescriptions[selectedValue] || '';
+          }
+        });
       }
 
       // Handle booking
@@ -397,6 +665,90 @@
         });
       }
 
+      // Handle Feedback submission
+      const fbBtn = document.getElementById('submitFeedbackBtn');
+      if (fbBtn) {
+        fbBtn.addEventListener('click', async () => {
+          const pId = document.getElementById('feedbackPractitioner').value;
+          const text = document.getElementById('feedbackText').value;
+          const rating = document.getElementById('feedbackRating').value;
+          
+          if(!pId || !text) {
+            alert('Please select a practitioner and write some feedback.');
+            return;
+          }
+          fbBtn.disabled = true;
+          fbBtn.textContent = 'Submitting...';
+          
+          try {
+            const pName = document.getElementById('feedbackPractitioner').options[document.getElementById('feedbackPractitioner').selectedIndex].text;
+            await addDoc(collection(db, "feedbacks"), {
+              patientId: user.uid,
+              patientName: user.displayName,
+              practitionerId: pId,
+              practitionerName: pName,
+              rating: parseInt(rating),
+              text: text,
+              createdAt: new Date().toISOString()
+            });
+            
+            // Also notify practitioner
+            await addDoc(collection(db, "notifications"), {
+              recipientId: pId,
+              senderId: user.uid,
+              senderName: user.displayName,
+              type: 'feedback_received',
+              message: `${user.displayName} gave you a ${rating}-star feedback: "${text.substring(0,40)}..."`,
+              createdAt: new Date().toISOString(),
+              read: false
+            });
+            
+            alert('Feedback submitted successfully!');
+            document.getElementById('feedbackText').value = '';
+          } catch(e) {
+            console.error(e);
+            alert('Failed to submit feedback.');
+          } finally {
+            fbBtn.disabled = false;
+            fbBtn.textContent = 'Submit Feedback';
+          }
+        });
+      }
+
+      // Fetch patient's past feedbacks
+      const fbQ = query(collection(db, "feedbacks"), where("patientId", "==", user.uid));
+      onSnapshot(fbQ, (snapshot) => {
+        const listEl = document.getElementById('pastFeedbackList');
+        if (!listEl) return;
+        if(snapshot.empty) {
+          listEl.innerHTML = '<div style="color:var(--color-text-muted);font-size:14px;">No past feedbacks found.</div>';
+          return;
+        }
+        let fbs = [];
+        snapshot.forEach(d => fbs.push(d.data()));
+        fbs.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+        let html = '';
+        fbs.forEach(f => {
+          const d = new Date(f.createdAt).toLocaleDateString();
+          let stars = '';
+          for(let i=0; i<5; i++) {
+            stars += `<i data-lucide="star" style="width:14px;height:14px;color:${i<f.rating ? 'var(--color-warning)' : '#e5e7eb'};fill:${i<f.rating ? 'var(--color-warning)' : 'none'};"></i>`;
+          }
+          html += `
+            <div style="background:var(--color-white);border:1px solid var(--color-border);padding:var(--space-4);border-radius:var(--radius-md);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-2);">
+                <div style="font-weight:600;font-size:14px;">For ${f.practitionerName}</div>
+                <div style="font-size:12px;color:var(--color-text-muted);">${d}</div>
+              </div>
+              <div style="display:flex;gap:4px;margin-bottom:var(--space-2);">${stars}</div>
+              <div style="font-size:14px;color:var(--color-text);">${f.text}</div>
+            </div>`;
+        });
+        listEl.innerHTML = html;
+        lucide.createIcons();
+      });
+
     });
 
     window.renderPatientSessionsList = function(appointments) {
@@ -443,6 +795,126 @@
       });
       html += '</div>';
       return html;
+    }
+
+    // --- CHAT FUNCTIONALITY ---
+    window.currentChatPartnerId = null;
+    window.chatUnsubscribe = null;
+
+    window.startPatientChat = function(practId, practName) {
+      if (!practId) {
+        const pSelect = document.getElementById('practitionerSelect');
+        if (pSelect.selectedIndex <= 0) {
+          alert('Please select a practitioner first.');
+          return;
+        }
+        practId = pSelect.value;
+        practName = pSelect.options[pSelect.selectedIndex].text;
+      }
+      openChatModal(practId, practName);
+    }
+
+    window.openChatModal = function(partnerId, partnerName) {
+      window.currentChatPartnerId = partnerId;
+      document.getElementById('chatTitle').textContent = partnerName;
+      document.getElementById('chatModal').style.display = 'flex';
+      lucide.createIcons();
+      
+      const user = window.getCurrentUser();
+      const chatId = [user.uid, partnerId].sort().join('_');
+      
+      let receivedMsgs = [];
+      let sentMsgs = [];
+      
+      const renderChat = () => {
+        let msgs = [...receivedMsgs, ...sentMsgs].filter(m => m.chatId === chatId && m.type === 'chat_message');
+        const uniqueIds = new Set();
+        msgs = msgs.filter(m => {
+          if (uniqueIds.has(m.id)) return false;
+          uniqueIds.add(m.id);
+          return true;
+        });
+        msgs.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        
+        const chatBox = document.getElementById('chatMessages');
+        chatBox.innerHTML = '';
+        if (msgs.length === 0) {
+          chatBox.innerHTML = '<div style="text-align:center;color:var(--color-text-muted);font-size:12px;margin-top:20px;">No messages yet. Start a conversation!</div>';
+        } else {
+          msgs.forEach(m => {
+            const isMe = m.senderId === user.uid;
+            const align = isMe ? 'flex-end' : 'flex-start';
+            const bg = isMe ? 'var(--color-herbal)' : '#e5e7eb';
+            const color = isMe ? 'white' : 'var(--color-text)';
+            const time = new Date(m.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            chatBox.innerHTML += `
+              <div style="display:flex;flex-direction:column;align-items:${align};">
+                <div style="background:${bg};color:${color};padding:var(--space-2) var(--space-4);border-radius:16px;max-width:80%;font-size:14px;word-wrap:break-word;">
+                  ${m.text}
+                </div>
+                <span style="font-size:10px;color:var(--color-text-muted);margin-top:4px;">${time}</span>
+              </div>
+            `;
+          });
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
+      };
+
+      const msgQ1 = query(collection(db, "notifications"), where("recipientId", "==", user.uid));
+      const unsub1 = onSnapshot(msgQ1, (snapshot) => {
+        receivedMsgs = [];
+        snapshot.forEach(docSnap => receivedMsgs.push({id: docSnap.id, ...docSnap.data()}));
+        renderChat();
+      });
+      
+      const msgQ2 = query(collection(db, "notifications"), where("senderId", "==", user.uid));
+      const unsub2 = onSnapshot(msgQ2, (snapshot) => {
+        sentMsgs = [];
+        snapshot.forEach(docSnap => sentMsgs.push({id: docSnap.id, ...docSnap.data()}));
+        renderChat();
+      });
+
+      window.chatUnsubscribe = () => {
+        unsub1();
+        unsub2();
+      };
+    }
+
+    window.closeChatModal = function() {
+      document.getElementById('chatModal').style.display = 'none';
+      if (window.chatUnsubscribe) {
+        window.chatUnsubscribe();
+        window.chatUnsubscribe = null;
+      }
+      window.currentChatPartnerId = null;
+    }
+
+    window.sendChatMessage = async function() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text || !window.currentChatPartnerId) return;
+      
+      input.value = '';
+      const user = window.getCurrentUser();
+      const chatId = [user.uid, window.currentChatPartnerId].sort().join('_');
+      
+      try {
+        await addDoc(collection(db, "notifications"), {
+          chatId: chatId,
+          recipientId: window.currentChatPartnerId,
+          senderId: user.uid,
+          senderName: user.displayName,
+          type: 'chat_message',
+          message: `New message from ${user.displayName}: "${text.substring(0, 30)}${text.length > 30 ? '...' : ''}"`,
+          text: text,
+          createdAt: new Date().toISOString(),
+          read: false
+        });
+      } catch (e) {
+        console.error("Error sending message:", e);
+        alert("Failed to send message.");
+      }
     }
 
     window.onPageChange = function(pageId) {

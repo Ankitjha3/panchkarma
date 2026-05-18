@@ -35,8 +35,11 @@ function renderSidebar(role, activePage) {
     patient: [
       { section: 'Overview', items: [
         { id: 'overview', icon: 'layout-dashboard', label: 'Dashboard' },
-        { id: 'book', icon: 'search', label: 'Find Practitioner' },
-        { id: 'sessions', icon: 'calendar-days', label: 'My Sessions' }
+        { id: 'practitioners', icon: 'users', label: 'Practitioners' },
+        { id: 'book', icon: 'search', label: 'Book Therapy' },
+        { id: 'sessions', icon: 'calendar-days', label: 'My Sessions' },
+        { id: 'analytics', icon: 'line-chart', label: 'Analytics' },
+        { id: 'feedback', icon: 'star', label: 'Feedback' }
       ]}
     ],
     practitioner: [
@@ -45,7 +48,9 @@ function renderSidebar(role, activePage) {
       ]},
       { section: 'Management', items: [
         { id: 'schedule', icon: 'calendar-plus', label: 'Daily Schedule' },
-        { id: 'patients', icon: 'users', label: 'My Patients' }
+        { id: 'patients', icon: 'users', label: 'My Patients' },
+        { id: 'messages', icon: 'message-square', label: 'Messages' },
+        { id: 'feedback', icon: 'star', label: 'Patient Feedback' }
       ]}
     ],
     admin: [
@@ -124,6 +129,11 @@ function renderTopNavbar(pageTitle, pageSubtitle) {
       <div class="navbar-search">
         <span class="navbar-search-icon">${icon('search', 14)}</span>
         <input type="text" placeholder="Search..." id="navSearch">
+      </div>
+      <div style="position:relative; margin-right: var(--space-2);">
+        <button class="notification-btn" onclick="handleNavClick('messages')" id="msgNavBtn" aria-label="Messages">
+          ${icon('message-square', 20)}
+        </button>
       </div>
       <div style="position:relative;">
         <button class="notification-btn" onclick="toggleNotifications()" id="notifBtn" aria-label="Notifications">

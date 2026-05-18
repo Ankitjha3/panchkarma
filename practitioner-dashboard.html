@@ -132,6 +132,26 @@
           </div>
         </div>
 
+        <!-- ====== MESSAGES SECTION ====== -->
+        <div data-section="messages" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">Patient Messages</h2>
+            </div>
+            <div class="panel-body">
+              <div id="messagesList" style="display:flex;flex-direction:column;gap:var(--space-3);">
+                <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                  <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                    <i data-lucide="message-square" style="width:22px;height:22px;"></i>
+                  </div>
+                  <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Messages Yet</h3>
+                  <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Start a conversation with your patients.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- ====== NOTIFICATIONS SECTION ====== -->
         <div data-section="notifications" style="display:none;">
           <div class="panel animate-fade-in-up">
@@ -145,7 +165,27 @@
                   <i data-lucide="bell-off" style="width:22px;height:22px;"></i>
                 </div>
                 <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Notifications</h3>
-                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">You're all caught up!</p>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">You're all caught up! Updates about your patients will appear here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====== FEEDBACK SECTION ====== -->
+        <div data-section="feedback" style="display:none;">
+          <div class="panel animate-fade-in-up">
+            <div class="panel-header">
+              <h2 class="panel-title">Patient Feedbacks</h2>
+            </div>
+            <div class="panel-body">
+              <div id="practitionerFeedbackList" style="display:flex;flex-direction:column;gap:var(--space-4);">
+                <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                  <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                    <i data-lucide="star" style="width:22px;height:22px;"></i>
+                  </div>
+                  <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Feedbacks Yet</h3>
+                  <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Patient feedbacks will appear here once they review your therapy sessions.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -153,6 +193,25 @@
 
       </div>
     </main>
+  </div>
+
+  <!-- ====== CHAT MODAL ====== -->
+  <div class="modal-overlay" id="chatModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center;">
+    <div style="background:var(--color-white);border-radius:var(--radius-xl);width:90%;max-width:480px;height:80vh;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="padding:var(--space-6);border-bottom:1px solid var(--color-border);display:flex;justify-content:space-between;align-items:center;background:var(--color-sage-light);">
+        <h2 style="font-size:var(--text-lg);font-weight:var(--weight-bold);color:var(--color-herbal);" id="chatTitle">Chat</h2>
+        <button onclick="closeChatModal()" style="cursor:pointer;background:none;border:none;color:var(--color-text-muted);">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+      </div>
+      <div id="chatMessages" style="flex:1;padding:var(--space-6);overflow-y:auto;display:flex;flex-direction:column;gap:var(--space-3);background:#f9fafb;">
+        <!-- Messages go here -->
+      </div>
+      <div style="padding:var(--space-4);border-top:1px solid var(--color-border);display:flex;gap:var(--space-2);background:var(--color-white);">
+        <input type="text" id="chatInput" class="form-input" placeholder="Type a message..." style="flex:1;margin:0;" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+        <button class="btn btn-primary" onclick="sendChatMessage()" style="padding:0 var(--space-4);"><i data-lucide="send" style="width:18px;height:18px;"></i></button>
+      </div>
+    </div>
   </div>
 
   <!-- ====== SCHEDULE MODAL ====== -->
@@ -175,6 +234,7 @@
           <label class="form-label" for="schedTherapy">Therapy Type</label>
           <select id="schedTherapy" class="form-input" required>
             <option value="">Select therapy</option>
+            <option value="Consultation">Consultation</option>
             <option value="Abhyanga">Abhyanga (Oil Massage)</option>
             <option value="Shirodhara">Shirodhara</option>
             <option value="Virechana">Virechana</option>
@@ -221,24 +281,26 @@
       lucide.createIcons();
       
       // Fetch patients and populate dropdown & patients list
+      let globalPatients = [];
       try {
-        const patients = await searchUsersByRole('patient');
+        globalPatients = await searchUsersByRole('patient');
         const patientSelect = document.getElementById('schedPatient');
         const patientsListEl = document.getElementById('patientsList');
         
-        if (patients.length === 0) {
+        if (globalPatients.length === 0) {
           patientSelect.innerHTML = '<option value="">No patients found</option>';
           if (patientsListEl) patientsListEl.innerHTML = '<div style="padding:var(--space-8);text-align:center;">No patients registered yet.</div>';
         } else {
           patientSelect.innerHTML = '<option value="">Select a patient</option>';
           let patientsHtml = '<div class="patients-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));gap:var(--space-4);">';
-          patients.forEach(p => {
+          globalPatients.forEach(p => {
             patientSelect.innerHTML += `<option value="${p.uid}" data-phone="${p.whatsappNumber || ''}" data-email="${p.email || ''}">${p.displayName} (${p.email})</option>`;
             patientsHtml += `
               <div class="patient-card" style="border:1px solid var(--color-border);padding:var(--space-4);border-radius:var(--radius-md);">
                 <div style="font-weight:600;">${p.displayName}</div>
                 <div style="font-size:var(--text-sm);color:var(--color-text-muted);">${p.email}</div>
                 ${p.whatsappNumber ? `<div style="font-size:12px;color:var(--color-herbal);margin-top:4px;">${icon('phone', 12)} +${p.whatsappNumber}</div>` : ''}
+                <button class="btn btn-sm btn-secondary" style="margin-top:var(--space-3);width:100%;" onclick="openChatModal('${p.uid}', '${p.displayName}')">Message Patient</button>
               </div>`;
           });
           patientsHtml += '</div>';
@@ -260,7 +322,14 @@
         }
 
         let notifs = [];
-        snapshot.forEach(docSnap => notifs.push(docSnap.data()));
+        let chatMessages = [];
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          notifs.push(data);
+          if (data.type === 'chat_message') {
+            chatMessages.push(data);
+          }
+        });
         
         // Sort notifications by date descending locally
         notifs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -278,12 +347,113 @@
             </div>`;
         });
         
-        if (notifDropdownList) notifDropdownList.innerHTML = html;
-        if (allNotifsEl) allNotifsEl.innerHTML = html;
+        if (notifDropdownList) notifDropdownList.innerHTML = html || '<div style="padding:var(--space-8);text-align:center;">No notifications</div>';
+        if (allNotifsEl) allNotifsEl.innerHTML = html || '<div style="padding:var(--space-8);text-align:center;">No notifications</div>';
         
-        const dot = document.getElementById('notifDot');
-        if (dot) dot.style.display = 'block';
+        if (notifs.length > 0) {
+          const dot = document.getElementById('notifDot');
+          if (dot) dot.style.display = 'block';
+        }
+        
+        // Render Messages Section
+        const msgsListEl = document.getElementById('messagesList');
+        if (msgsListEl && globalPatients) {
+          let messagesHtml = '';
+          const uniqueSenders = [...new Set(chatMessages.map(m => m.senderId))];
+          
+          if (uniqueSenders.length === 0) {
+            messagesHtml = `
+              <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="message-square" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Messages Yet</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Start a conversation with your patients.</p>
+              </div>`;
+          } else {
+            uniqueSenders.forEach(senderId => {
+              const patient = globalPatients.find(p => p.uid === senderId);
+              const senderMsgs = chatMessages.filter(m => m.senderId === senderId);
+              senderMsgs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+              const lastMsg = senderMsgs[0];
+              const pName = patient ? patient.displayName : (lastMsg.senderName || 'Unknown Patient');
+              const timeStr = new Date(lastMsg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+              
+              messagesHtml += `
+                <div class="message-card" style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-4);background:var(--color-white);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;" onclick="openChatModal('${senderId}', '${pName}')">
+                  <div style="display:flex;gap:var(--space-4);align-items:center;">
+                    <div style="width:40px;height:40px;border-radius:50%;background:var(--color-sage-light);color:var(--color-herbal);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;">
+                      ${pName.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <div style="font-weight:600;color:var(--color-text);">${pName}</div>
+                      <div style="font-size:var(--text-sm);color:var(--color-text-muted);">${lastMsg.text.substring(0, 40)}${lastMsg.text.length > 40 ? '...' : ''}</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-2);">
+                    <div style="font-size:11px;color:var(--color-text-muted);">${timeStr}</div>
+                    <button class="btn btn-sm btn-primary">Reply</button>
+                  </div>
+                </div>`;
+            });
+          }
+          msgsListEl.innerHTML = messagesHtml;
+        }
+
         lucide.createIcons();
+        // Fetch Feedbacks
+        const fbQ = query(collection(db, "feedbacks"), where("practitionerId", "==", user.uid));
+        onSnapshot(fbQ, (snapshot) => {
+          const listEl = document.getElementById('practitionerFeedbackList');
+          if (!listEl) return;
+          if(snapshot.empty) {
+            listEl.innerHTML = `
+              <div style="display:flex;flex-direction:column;align-items:center;padding:var(--space-12);text-align:center;">
+                <div style="width:48px;height:48px;border-radius:var(--radius-lg);background:var(--color-sage-light);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--color-herbal);">
+                  <i data-lucide="star" style="width:22px;height:22px;"></i>
+                </div>
+                <h3 style="font-size:var(--text-md);font-weight:var(--weight-semibold);margin-bottom:var(--space-2);">No Feedbacks Yet</h3>
+                <p style="font-size:var(--text-sm);color:var(--color-text-muted);max-width:280px;">Patient feedbacks will appear here once they review your therapy sessions.</p>
+              </div>`;
+            return;
+          }
+          let fbs = [];
+          snapshot.forEach(d => fbs.push(d.data()));
+          fbs.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+          
+          let html = '';
+          let totalRating = 0;
+          fbs.forEach(f => {
+            totalRating += f.rating;
+            const d = new Date(f.createdAt).toLocaleDateString();
+            let stars = '';
+            for(let i=0; i<5; i++) {
+              stars += `<i data-lucide="star" style="width:16px;height:16px;color:${i<f.rating ? 'var(--color-warning)' : '#e5e7eb'};fill:${i<f.rating ? 'var(--color-warning)' : 'none'};"></i>`;
+            }
+            html += `
+              <div style="background:var(--color-white);border:1px solid var(--color-border);padding:var(--space-5);border-radius:var(--radius-md);">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-3);">
+                  <div style="display:flex;gap:var(--space-3);align-items:center;">
+                    <div style="width:40px;height:40px;border-radius:50%;background:var(--color-sage-light);color:var(--color-herbal);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;">
+                      ${f.patientName.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <div style="font-weight:600;font-size:var(--text-md);color:var(--color-text);">${f.patientName}</div>
+                      <div style="font-size:var(--text-sm);color:var(--color-text-muted);">${d}</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:4px;">${stars}</div>
+                </div>
+                <div style="font-size:var(--text-md);color:var(--color-text);background:var(--color-sage-light);padding:var(--space-3);border-radius:var(--radius-sm);border-left:3px solid var(--color-herbal);">
+                  "${f.text}"
+                </div>
+              </div>`;
+          });
+          listEl.innerHTML = html;
+          document.getElementById('statFeedback').textContent = fbs.length;
+          lucide.createIcons();
+        });
+
       });
 
       // Real-time Appointments Listener
@@ -544,6 +714,112 @@
       document.getElementById('scheduleModal').style.display = 'none';
     }
 
+    // --- CHAT FUNCTIONALITY ---
+    window.currentChatPartnerId = null;
+    window.chatUnsubscribe = null;
+
+    window.openChatModal = function(partnerId, partnerName) {
+      window.currentChatPartnerId = partnerId;
+      document.getElementById('chatTitle').textContent = partnerName;
+      document.getElementById('chatModal').style.display = 'flex';
+      lucide.createIcons();
+      
+      const user = window.getCurrentUser();
+      const chatId = [user.uid, partnerId].sort().join('_');
+      
+      let receivedMsgs = [];
+      let sentMsgs = [];
+      
+      const renderChat = () => {
+        let msgs = [...receivedMsgs, ...sentMsgs].filter(m => m.chatId === chatId && m.type === 'chat_message');
+        const uniqueIds = new Set();
+        msgs = msgs.filter(m => {
+          if (uniqueIds.has(m.id)) return false;
+          uniqueIds.add(m.id);
+          return true;
+        });
+        msgs.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        
+        const chatBox = document.getElementById('chatMessages');
+        chatBox.innerHTML = '';
+        if (msgs.length === 0) {
+          chatBox.innerHTML = '<div style="text-align:center;color:var(--color-text-muted);font-size:12px;margin-top:20px;">No messages yet. Start a conversation!</div>';
+        } else {
+          msgs.forEach(m => {
+            const isMe = m.senderId === user.uid;
+            const align = isMe ? 'flex-end' : 'flex-start';
+            const bg = isMe ? 'var(--color-herbal)' : '#e5e7eb';
+            const color = isMe ? 'white' : 'var(--color-text)';
+            const time = new Date(m.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            chatBox.innerHTML += `
+              <div style="display:flex;flex-direction:column;align-items:${align};">
+                <div style="background:${bg};color:${color};padding:var(--space-2) var(--space-4);border-radius:16px;max-width:80%;font-size:14px;word-wrap:break-word;">
+                  ${m.text}
+                </div>
+                <span style="font-size:10px;color:var(--color-text-muted);margin-top:4px;">${time}</span>
+              </div>
+            `;
+          });
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
+      };
+
+      const msgQ1 = query(collection(db, "notifications"), where("recipientId", "==", user.uid));
+      const unsub1 = onSnapshot(msgQ1, (snapshot) => {
+        receivedMsgs = [];
+        snapshot.forEach(docSnap => receivedMsgs.push({id: docSnap.id, ...docSnap.data()}));
+        renderChat();
+      });
+      
+      const msgQ2 = query(collection(db, "notifications"), where("senderId", "==", user.uid));
+      const unsub2 = onSnapshot(msgQ2, (snapshot) => {
+        sentMsgs = [];
+        snapshot.forEach(docSnap => sentMsgs.push({id: docSnap.id, ...docSnap.data()}));
+        renderChat();
+      });
+
+      window.chatUnsubscribe = () => {
+        unsub1();
+        unsub2();
+      };
+    }
+
+    window.closeChatModal = function() {
+      document.getElementById('chatModal').style.display = 'none';
+      if (window.chatUnsubscribe) {
+        window.chatUnsubscribe();
+        window.chatUnsubscribe = null;
+      }
+      window.currentChatPartnerId = null;
+    }
+
+    window.sendChatMessage = async function() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text || !window.currentChatPartnerId) return;
+      
+      input.value = '';
+      const user = window.getCurrentUser();
+      const chatId = [user.uid, window.currentChatPartnerId].sort().join('_');
+      
+      try {
+        await addDoc(collection(db, "notifications"), {
+          chatId: chatId,
+          recipientId: window.currentChatPartnerId,
+          senderId: user.uid,
+          senderName: user.displayName,
+          type: 'chat_message',
+          message: `New message from ${user.displayName}: "${text.substring(0, 30)}${text.length > 30 ? '...' : ''}"`,
+          text: text,
+          createdAt: new Date().toISOString(),
+          read: false
+        });
+      } catch (e) {
+        console.error("Error sending message:", e);
+        alert("Failed to send message.");
+      }
+    }
 
 
     window.onPageChange = function(pageId) {

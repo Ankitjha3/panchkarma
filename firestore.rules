@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Function to verify if user is logged in
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // 1. Users Collection
+    match /users/{userId} {
+      // Anyone logged in can read users
+      allow read: if isAuthenticated();
+      // Users can only create/update their own profile
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // 2. Appointments Collection
+    match /appointments/{docId} {
+      // Users can read, update, delete appointments if they are involved
+      allow read, update, delete: if isAuthenticated() && 
+        (resource.data.patientId == request.auth.uid || resource.data.practitionerId == request.auth.uid);
+      
+      // Users can create appointments if they are involved
+      allow create: if isAuthenticated() && 
+        (request.resource.data.patientId == request.auth.uid || request.resource.data.practitionerId == request.auth.uid);
+    }
+
+    // 3. Notifications Collection (Also powers the Chat System)
+    match /notifications/{docId} {
+      // Users can read, update, delete notifications if they are sender or recipient
+      allow read, update, delete: if isAuthenticated() && 
+        (resource.data.recipientId == request.auth.uid || resource.data.senderId == request.auth.uid);
+      
+      // Users can create notifications if they are the sender
+      allow create: if isAuthenticated() && 
+        (request.resource.data.senderId == request.auth.uid);
+    }
+
+    // 4. Feedbacks Collection
+    match /feedbacks/{docId} {
+      // Patient or Practitioner can read the feedback
+      allow read: if isAuthenticated() && 
+        (resource.data.patientId == request.auth.uid || resource.data.practitionerId == request.auth.uid);
+      
+      // Patient can create feedback
+      allow create: if isAuthenticated() && 
+        (request.resource.data.patientId == request.auth.uid);
+    }
+  }
+}
