@@ -171,6 +171,81 @@
           </div>
         </div>
 
+        <!-- ====== PROFILE SECTION ====== -->
+        <div data-section="profile" style="display:none;">
+          <div class="panel animate-fade-in-up" style="max-width:680px;">
+            <div class="panel-header">
+              <h2 class="panel-title">My Profile</h2>
+              <span id="profileSaveStatus" style="font-size:var(--text-sm);color:var(--color-success);display:none;">
+                <i data-lucide="check-circle" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;"></i>Saved
+              </span>
+            </div>
+            <div class="panel-body">
+
+              <!-- Avatar + name row -->
+              <div style="display:flex;align-items:center;gap:var(--space-6);margin-bottom:var(--space-8);padding-bottom:var(--space-6);border-bottom:1px solid var(--color-border-light);">
+                <div id="profileAvatar" style="width:72px;height:72px;border-radius:50%;background:var(--color-herbal);color:white;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:var(--weight-bold);flex-shrink:0;">
+                  ?
+                </div>
+                <div>
+                  <div id="profileDisplayName" style="font-size:var(--text-xl);font-weight:var(--weight-bold);color:var(--color-text);">—</div>
+                  <div style="font-size:var(--text-sm);color:var(--color-text-muted);margin-top:2px;" id="profileEmail">—</div>
+                  <span class="badge badge-info" style="margin-top:var(--space-2);display:inline-block;">Practitioner</span>
+                </div>
+              </div>
+
+              <!-- Edit form -->
+              <form id="profileForm" style="display:flex;flex-direction:column;gap:var(--space-5);">
+
+                <div class="form-group">
+                  <label class="form-label" for="profileNameInput">Display Name</label>
+                  <input type="text" id="profileNameInput" class="form-input" placeholder="Your full name" maxlength="80" required>
+                  <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:4px;">This name is shown to patients when they browse practitioners.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="profileSpecialization">Specialization</label>
+                  <input type="text" id="profileSpecialization" class="form-input" placeholder="e.g. Panchakarma, Ayurvedic Nutrition" maxlength="120">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="profileExperience">Years of Experience</label>
+                  <input type="number" id="profileExperience" class="form-input" placeholder="e.g. 8" min="0" max="60" style="max-width:160px;">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="profileBio">Bio <span style="font-weight:var(--weight-normal);color:var(--color-text-muted);">(visible to patients)</span></label>
+                  <textarea id="profileBio" class="form-input" rows="5" placeholder="Tell patients about your background, approach, and expertise…" maxlength="600" style="resize:vertical;"></textarea>
+                  <div style="display:flex;justify-content:flex-end;margin-top:4px;">
+                    <span id="bioCharCount" style="font-size:var(--text-xs);color:var(--color-text-muted);">0 / 600</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="profileLanguages">Languages Spoken</label>
+                  <input type="text" id="profileLanguages" class="form-input" placeholder="e.g. English, Hindi, Sanskrit" maxlength="120">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="profileLocation">Clinic / Practice Location</label>
+                  <input type="text" id="profileLocation" class="form-input" placeholder="e.g. Rishikesh, Uttarakhand" maxlength="120">
+                  <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:4px;">Patients use this to find the nearest practitioner.</div>
+                </div>
+
+                <div style="display:flex;gap:var(--space-3);padding-top:var(--space-2);">
+                  <button type="submit" class="btn btn-primary" id="profileSaveBtn" style="min-width:140px;">
+                    <i data-lucide="save" style="width:16px;height:16px;"></i> Save Profile
+                  </button>
+                  <button type="button" class="btn btn-secondary" onclick="loadProfileData()">
+                    <i data-lucide="rotate-ccw" style="width:16px;height:16px;"></i> Reset
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
         <!-- ====== FEEDBACK SECTION ====== -->
         <div data-section="feedback" style="display:none;">
           <div class="panel animate-fade-in-up">
@@ -823,8 +898,116 @@
 
 
     window.onPageChange = function(pageId) {
+      if (pageId === 'profile') window.loadProfileData();
       lucide.createIcons();
     }
+
+    // ---- PROFILE SECTION ----
+    function updateBioCount() {
+      const bio = document.getElementById('profileBio');
+      const counter = document.getElementById('bioCharCount');
+      if (bio && counter) counter.textContent = `${bio.value.length} / 600`;
+    }
+
+    window.loadProfileData = async function() {
+      const u = window.getCurrentUser();
+      if (!u) return;
+
+      const initials = u.displayName ? u.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '?';
+      const avatarEl = document.getElementById('profileAvatar');
+      if (avatarEl) avatarEl.textContent = initials;
+
+      const nameEl = document.getElementById('profileDisplayName');
+      if (nameEl) nameEl.textContent = u.displayName || '—';
+
+      const emailEl = document.getElementById('profileEmail');
+      if (emailEl) emailEl.textContent = u.email || '—';
+
+      try {
+        const snap = await getDoc(doc(db, "users", u.uid));
+        const data = snap.exists() ? snap.data() : {};
+
+        const nameInput = document.getElementById('profileNameInput');
+        if (nameInput) nameInput.value = data.displayName || u.displayName || '';
+
+        const specInput = document.getElementById('profileSpecialization');
+        if (specInput) specInput.value = data.specialization || '';
+
+        const expInput = document.getElementById('profileExperience');
+        if (expInput) expInput.value = data.yearsExperience || '';
+
+        const bioInput = document.getElementById('profileBio');
+        if (bioInput) {
+          bioInput.value = data.bio || '';
+          updateBioCount();
+        }
+
+        const langInput = document.getElementById('profileLanguages');
+        if (langInput) langInput.value = data.languages || '';
+
+        const locInput = document.getElementById('profileLocation');
+        if (locInput) locInput.value = data.location || '';
+      } catch (e) {
+        console.error('Failed to load profile:', e);
+      }
+    };
+
+    // Wire up bio counter and form submit — inside the module so db/doc/updateDoc are in scope
+    const bioInputEl = document.getElementById('profileBio');
+    if (bioInputEl) bioInputEl.addEventListener('input', updateBioCount);
+
+    const profileForm = document.getElementById('profileForm');
+    if (profileForm) {
+      profileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const u = window.getCurrentUser();
+        if (!u) return;
+
+        const saveBtn = document.getElementById('profileSaveBtn');
+        const statusEl = document.getElementById('profileSaveStatus');
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i data-lucide="loader" style="width:16px;height:16px;"></i> Saving…';
+        lucide.createIcons();
+
+        const updates = {
+          displayName: document.getElementById('profileNameInput').value.trim(),
+          specialization: document.getElementById('profileSpecialization').value.trim(),
+          yearsExperience: parseInt(document.getElementById('profileExperience').value) || 0,
+          bio: document.getElementById('profileBio').value.trim(),
+          languages: document.getElementById('profileLanguages').value.trim(),
+          location: document.getElementById('profileLocation').value.trim(),
+          profileUpdatedAt: new Date().toISOString()
+        };
+
+        try {
+          await updateDoc(doc(db, "users", u.uid), updates);
+
+          // Keep localStorage in sync
+          const cached = JSON.parse(localStorage.getItem('pk_user') || '{}');
+          Object.assign(cached, updates);
+          localStorage.setItem('pk_user', JSON.stringify(cached));
+
+          // Refresh avatar + display name in the panel
+          const initials = updates.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+          document.getElementById('profileAvatar').textContent = initials;
+          document.getElementById('profileDisplayName').textContent = updates.displayName;
+
+          if (statusEl) {
+            statusEl.style.display = 'inline-flex';
+            lucide.createIcons();
+            setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
+          }
+        } catch (err) {
+          console.error('Profile save failed:', err);
+          alert('Failed to save profile. Please try again.');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i data-lucide="save" style="width:16px;height:16px;"></i> Save Profile';
+          lucide.createIcons();
+        }
+      });
+    }
+
   </script>
 </body>
 </html>

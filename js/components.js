@@ -35,8 +35,9 @@ function renderSidebar(role, activePage) {
     patient: [
       { section: 'Overview', items: [
         { id: 'overview', icon: 'layout-dashboard', label: 'Dashboard' },
+        { id: 'therapies', icon: 'sparkles', label: 'Therapies' },
         { id: 'practitioners', icon: 'users', label: 'Practitioners' },
-        { id: 'book', icon: 'search', label: 'Book Therapy' },
+        { id: 'book', icon: 'calendar-plus', label: 'Book Session' },
         { id: 'sessions', icon: 'calendar-days', label: 'My Sessions' },
         { id: 'analytics', icon: 'line-chart', label: 'Analytics' },
         { id: 'feedback', icon: 'star', label: 'Feedback' }
@@ -51,6 +52,9 @@ function renderSidebar(role, activePage) {
         { id: 'patients', icon: 'users', label: 'My Patients' },
         { id: 'messages', icon: 'message-square', label: 'Messages' },
         { id: 'feedback', icon: 'star', label: 'Patient Feedback' }
+      ]},
+      { section: 'Account', items: [
+        { id: 'profile', icon: 'user-circle', label: 'My Profile' }
       ]}
     ],
     admin: [

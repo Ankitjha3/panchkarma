@@ -95,6 +95,175 @@
           </div>
         </div>
 
+        <!-- ====== THERAPIES SECTION ====== -->
+        <div data-section="therapies" style="display:none;">
+          <div class="animate-fade-in-up">
+
+            <!-- Header -->
+            <div style="margin-bottom:var(--space-6);">
+              <h2 style="font-size:var(--text-2xl);font-weight:var(--weight-bold);color:var(--color-text);margin-bottom:var(--space-2);">Our Therapies</h2>
+              <p style="font-size:var(--text-base);color:var(--color-text-muted);max-width:600px;">Ancient Panchakarma treatments tailored to restore balance, detoxify the body, and promote deep healing. Select any therapy to learn more and book a session.</p>
+            </div>
+
+            <!-- Therapy Cards Grid -->
+            <div id="therapyCardsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--space-6);">
+
+              <!-- Consultation -->
+              <div class="therapy-card" data-therapy="Consultation">
+                <div class="therapy-card-img-wrap">
+                  <img src="assets/images/therapies/consultation.jpg" alt="Consultation" class="therapy-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="therapy-card-img-fallback"><i data-lucide="stethoscope" style="width:40px;height:40px;color:var(--color-herbal);"></i></div>
+                  <span class="therapy-card-badge">Consultation</span>
+                </div>
+                <div class="therapy-card-body">
+                  <h3 class="therapy-card-title">Initial Consultation</h3>
+                  <p class="therapy-card-desc">A one-on-one session to assess your dosha, discuss health concerns, and receive a personalised Panchakarma treatment plan.</p>
+                  <div class="therapy-card-meta">
+                    <span><i data-lucide="clock" style="width:14px;height:14px;"></i> 45–60 min</span>
+                    <span><i data-lucide="leaf" style="width:14px;height:14px;"></i> All Doshas</span>
+                  </div>
+                  <button class="btn btn-primary therapy-book-btn" style="width:100%;margin-top:var(--space-4);" onclick="bookTherapyFromCard('Consultation')">
+                    <i data-lucide="calendar-plus" style="width:16px;height:16px;"></i> Book This Therapy
+                  </button>
+                </div>
+              </div>
+
+              <!-- Abhyanga -->
+              <div class="therapy-card" data-therapy="Abhyanga">
+                <div class="therapy-card-img-wrap">
+                  <img src="assets/images/therapies/abhyanga.jpg" alt="Abhyanga" class="therapy-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="therapy-card-img-fallback"><i data-lucide="droplets" style="width:40px;height:40px;color:var(--color-herbal);"></i></div>
+                  <span class="therapy-card-badge">Abhyanga</span>
+                </div>
+                <div class="therapy-card-body">
+                  <h3 class="therapy-card-title">Abhyanga — Oil Massage</h3>
+                  <p class="therapy-card-desc">A full-body warm herbal oil massage that nourishes the skin, mobilises deep-seated toxins, improves circulation, and deeply relaxes the nervous system.</p>
+                  <div class="therapy-card-meta">
+                    <span><i data-lucide="clock" style="width:14px;height:14px;"></i> 60–90 min</span>
+                    <span><i data-lucide="leaf" style="width:14px;height:14px;"></i> Vata, Pitta</span>
+                  </div>
+                  <button class="btn btn-primary therapy-book-btn" style="width:100%;margin-top:var(--space-4);" onclick="bookTherapyFromCard('Abhyanga')">
+                    <i data-lucide="calendar-plus" style="width:16px;height:16px;"></i> Book This Therapy
+                  </button>
+                </div>
+              </div>
+
+              <!-- Shirodhara -->
+              <div class="therapy-card" data-therapy="Shirodhara">
+                <div class="therapy-card-img-wrap">
+                  <img src="assets/images/therapies/shirodhara.jpg" alt="Shirodhara" class="therapy-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="therapy-card-img-fallback"><i data-lucide="waves" style="width:40px;height:40px;color:var(--color-herbal);"></i></div>
+                  <span class="therapy-card-badge">Shirodhara</span>
+                </div>
+                <div class="therapy-card-body">
+                  <h3 class="therapy-card-title">Shirodhara</h3>
+                  <p class="therapy-card-desc">Continuous gentle pouring of warm herbal oil over the forehead (third eye). Exceptionally effective for stress, anxiety, insomnia, and mental clarity.</p>
+                  <div class="therapy-card-meta">
+                    <span><i data-lucide="clock" style="width:14px;height:14px;"></i> 45–60 min</span>
+                    <span><i data-lucide="leaf" style="width:14px;height:14px;"></i> Vata, Pitta</span>
+                  </div>
+                  <button class="btn btn-primary therapy-book-btn" style="width:100%;margin-top:var(--space-4);" onclick="bookTherapyFromCard('Shirodhara')">
+                    <i data-lucide="calendar-plus" style="width:16px;height:16px;"></i> Book This Therapy
+                  </button>
+                </div>
+              </div>
+
+              <!-- Virechana -->
+              <div class="therapy-card" data-therapy="Virechana">
+                <div class="therapy-card-img-wrap">
+                  <img src="assets/images/therapies/virechana.jpg" alt="Virechana" class="therapy-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="therapy-card-img-fallback"><i data-lucide="flame" style="width:40px;height:40px;color:var(--color-herbal);"></i></div>
+                  <span class="therapy-card-badge">Virechana</span>
+                </div>
+                <div class="therapy-card-body">
+                  <h3 class="therapy-card-title">Virechana — Purgation</h3>
+                  <p class="therapy-card-desc">Medicated purgation therapy that cleanses Pitta toxins from the body, purifies the blood, and effectively treats skin and gastrointestinal disorders.</p>
+                  <div class="therapy-card-meta">
+                    <span><i data-lucide="clock" style="width:14px;height:14px;"></i> 1–3 days</span>
+                    <span><i data-lucide="leaf" style="width:14px;height:14px;"></i> Pitta</span>
+                  </div>
+                  <button class="btn btn-primary therapy-book-btn" style="width:100%;margin-top:var(--space-4);" onclick="bookTherapyFromCard('Virechana')">
+                    <i data-lucide="calendar-plus" style="width:16px;height:16px;"></i> Book This Therapy
+                  </button>
+                </div>
+              </div>
+
+              <!-- Basti -->
+              <div class="therapy-card" data-therapy="Basti">
+                <div class="therapy-card-img-wrap">
+                  <img src="assets/images/therapies/basti.jpg" alt="Basti" class="therapy-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="therapy-card-img-fallback"><i data-lucide="wind" style="width:40px;height:40px;color:var(--color-herbal);"></i></div>
+                  <span class="therapy-card-badge">Basti</span>
+                </div>
+                <div class="therapy-card-body">
+                  <h3 class="therapy-card-title">Basti — Medicated Enema</h3>
+                  <p class="therapy-card-desc">Therapeutic medicated enema that cleanses the colon and balances Vata dosha — crucial for overall detoxification and treating chronic conditions.</p>
+                  <div class="therapy-card-meta">
+                    <span><i data-lucide="clock" style="width:14px;height:14px;"></i> 30–45 min</span>
+                    <span><i data-lucide="leaf" style="width:14px;height:14px;"></i> Vata</span>
+                  </div>
+                  <button class="btn btn-primary therapy-book-btn" style="width:100%;margin-top:var(--space-4);" onclick="bookTherapyFromCard('Basti')">
+                    <i data-lucide="calendar-plus" style="width:16px;height:16px;"></i> Book This Therapy
+                  </button>
+                </div>
+              </div>
+
+              <!-- Nasya -->
+              <div class="therapy-card" data-therapy="Nasya">
+                <div class="therapy-card-img-wrap">
+                  <img src="assets/images/therapies/nasya.jpg" alt="Nasya" class="therapy-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="therapy-card-img-fallback"><i data-lucide="sparkles" style="width:40px;height:40px;color:var(--color-herbal);"></i></div>
+                  <span class="therapy-card-badge">Nasya</span>
+                </div>
+                <div class="therapy-card-body">
+                  <h3 class="therapy-card-title">Nasya — Nasal Therapy</h3>
+                  <p class="therapy-card-desc">Administration of medicated oils through the nasal passages to cleanse accumulated Kapha toxins from the head and neck region, improving clarity and breathing.</p>
+                  <div class="therapy-card-meta">
+                    <span><i data-lucide="clock" style="width:14px;height:14px;"></i> 30–45 min</span>
+                    <span><i data-lucide="leaf" style="width:14px;height:14px;"></i> Kapha</span>
+                  </div>
+                  <button class="btn btn-primary therapy-book-btn" style="width:100%;margin-top:var(--space-4);" onclick="bookTherapyFromCard('Nasya')">
+                    <i data-lucide="calendar-plus" style="width:16px;height:16px;"></i> Book This Therapy
+                  </button>
+                </div>
+              </div>
+
+              <!-- Vamana -->
+              <div class="therapy-card" data-therapy="Vamana">
+                <div class="therapy-card-img-wrap">
+                  <img src="assets/images/therapies/vamana.jpg" alt="Vamana" class="therapy-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="therapy-card-img-fallback"><i data-lucide="cloud-rain" style="width:40px;height:40px;color:var(--color-herbal);"></i></div>
+                  <span class="therapy-card-badge">Vamana</span>
+                </div>
+                <div class="therapy-card-body">
+                  <h3 class="therapy-card-title">Vamana — Emesis Therapy</h3>
+                  <p class="therapy-card-desc">Medicated emesis therapy designed to eliminate Kapha toxins from the respiratory tract and upper gastrointestinal tract, relieving congestion and chronic conditions.</p>
+                  <div class="therapy-card-meta">
+                    <span><i data-lucide="clock" style="width:14px;height:14px;"></i> 1–2 days</span>
+                    <span><i data-lucide="leaf" style="width:14px;height:14px;"></i> Kapha</span>
+                  </div>
+                  <button class="btn btn-primary therapy-book-btn" style="width:100%;margin-top:var(--space-4);" onclick="bookTherapyFromCard('Vamana')">
+                    <i data-lucide="calendar-plus" style="width:16px;height:16px;"></i> Book This Therapy
+                  </button>
+                </div>
+              </div>
+
+              <!-- Raktamokshana -->
+              <div class="therapy-card" data-therapy="Raktamokshana">
+                <div class="therapy-card-img-wrap">
+                  <img src="assets/images/therapies/raktamokshana.jpg" alt="Raktamokshana" class="therapy-card-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="therapy-card-img-fallback"><i data-lucide="heart-pulse" style="width:40px;height:40px;color:var(--color-herbal);"></i></div>
+                  <span class="therapy-card-badge">Raktamokshana</span>
+                </div>
+                <div class="therapy-card-body">
+                  <h3 class="therapy-card-title">Raktamokshana — Blood Purification</h3>
+                  <p class="therapy-card-desc">A blood-letting therapy to cleanse the blood and cure disorders caused by Pitta dosha toxicity, including skin diseases and inflammatory conditions.</p>
+                  <div class="therapy-card-meta">
+                    <span><i data-lucide="clock" style="width:14px;height:14px;"></i> 30–60 min</span>
+                    <span><i data-lucide="leaf" style="width:14px;height:14px;"></i> Pitta</span>
+                  </div>
+                  <button class="btn btn-primary therapy-book-btn" style="width:100%;margin-top:var(--space-4);" onclick="bookTherapyFromCard('Raktamokshana')">
+                    <i data-lucide="calendar-plus" style="width:16px;height:16px;"></i> Book This Therapy
+                  </button>
+                </div>
+              </div>
+
+            </div><!-- /therapyCardsGrid -->
+          </div>
+        </div>
+
         <!-- ====== PRACTITIONERS SECTION ====== -->
         <div data-section="practitioners" style="display:none;">
           <div class="panel animate-fade-in-up">
@@ -537,6 +706,15 @@
           if(pSelect) pSelect.innerHTML = '<option value="">Choose a practitioner</option>';
           if(fSelect) fSelect.innerHTML = '<option value="">Select Practitioner</option>';
           let listHtml = '';
+
+          // Pin Dr. Sajal Pandey to the top
+          practitioners.sort((a, b) => {
+            const aIsSajal = a.displayName.toLowerCase().includes('sajal');
+            const bIsSajal = b.displayName.toLowerCase().includes('sajal');
+            if (aIsSajal && !bIsSajal) return -1;
+            if (!aIsSajal && bIsSajal) return 1;
+            return 0;
+          });
           
           practitioners.forEach(p => {
             if(pSelect) pSelect.innerHTML += `<option value="${p.uid}" data-phone="${p.whatsappNumber || ''}" data-email="${p.email || ''}">${p.displayName}</option>`;
@@ -545,21 +723,25 @@
             listHtml += `
               <div class="stat-card" style="display:flex;flex-direction:column;gap:var(--space-3);align-items:flex-start;">
                 <div style="display:flex;align-items:center;gap:var(--space-3);width:100%;">
-                  <div style="width:40px;height:40px;border-radius:50%;background:var(--color-sage-light);color:var(--color-herbal);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;">
+                  <div style="width:48px;height:48px;border-radius:50%;background:var(--color-sage-light);color:var(--color-herbal);display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.3rem;flex-shrink:0;">
                     ${p.displayName.charAt(0).toUpperCase()}
                   </div>
-                  <div>
+                  <div style="min-width:0;">
                     <h3 style="margin:0;font-size:var(--text-md);font-weight:600;">${p.displayName}</h3>
-                    <p style="margin:0;font-size:var(--text-xs);color:var(--color-text-muted);">Ayurvedic Practitioner</p>
+                    <p style="margin:0;font-size:var(--text-xs);color:var(--color-herbal);font-weight:500;">${p.specialization || 'Ayurvedic Practitioner'}</p>
+                    ${p.yearsExperience ? `<p style="margin:0;font-size:var(--text-xs);color:var(--color-text-muted);">${p.yearsExperience} yrs experience</p>` : ''}
                   </div>
                 </div>
+                ${p.bio ? `<p style="font-size:var(--text-sm);color:var(--color-text-secondary);line-height:1.5;margin:0;border-left:3px solid var(--color-sage);padding-left:var(--space-3);">${p.bio.length > 120 ? p.bio.slice(0, 120) + '…' : p.bio}</p>` : ''}
                 <div style="font-size:var(--text-sm);color:var(--color-text-muted);width:100%;">
                   <div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-1);">
                     <i data-lucide="mail" style="width:14px;height:14px;"></i> ${p.email || 'N/A'}
                   </div>
+                  ${p.languages ? `<div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-1);"><i data-lucide="languages" style="width:14px;height:14px;"></i> ${p.languages}</div>` : ''}
                   <div style="display:flex;align-items:center;gap:var(--space-2);">
                     <i data-lucide="phone" style="width:14px;height:14px;"></i> ${p.whatsappNumber || 'N/A'}
                   </div>
+                  ${p.location ? `<div style="display:flex;align-items:center;gap:var(--space-2);margin-top:var(--space-1);color:var(--color-herbal);font-weight:500;"><i data-lucide="map-pin" style="width:14px;height:14px;"></i> ${p.location}</div>` : ''}
                 </div>
                 <div style="display:flex;gap:var(--space-2);width:100%;margin-top:var(--space-2);">
                   <button class="btn btn-primary" style="flex:1;padding:var(--space-2);" onclick="startPatientChat('${p.uid}', '${p.displayName}')">Message</button>
@@ -920,6 +1102,21 @@
     window.onPageChange = function(pageId) {
       lucide.createIcons();
     }
+
+    // ---- THERAPIES SECTION ----
+    // Called when patient clicks "Book This Therapy" on a therapy card
+    window.bookTherapyFromCard = function(therapyName) {
+      handleNavClick('book');
+      // Pre-select the therapy in the book section dropdown
+      setTimeout(() => {
+        const sel = document.getElementById('therapySelect');
+        if (sel) {
+          sel.value = therapyName;
+          sel.dispatchEvent(new Event('change'));
+        }
+        lucide.createIcons();
+      }, 80);
+    };
   </script>
 </body>
 </html>
